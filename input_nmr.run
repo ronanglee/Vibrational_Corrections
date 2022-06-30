@@ -1,0 +1,20 @@
+Task SinglePoint
+
+Engine ADF
+  title
+  basis
+    core None
+    type DZP
+  end
+  save TAPE10	
+EndEngine
+eor
+
+$AMSBIN/nmr  <<eor
+tape10file ams.results/TAPE10   
+adffile ams.results/adf.rkf
+NMR
+  OUT ISO
+  SCF 1.0e-08		
+END
+eor

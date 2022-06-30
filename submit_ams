@@ -1,0 +1,78 @@
+#!/bin/bash 
+if [ $# -ne 4 ]; then
+    echo " This script has to be called in the following form:"
+    echo ""
+    echo "                    submit_ams queue cores mem input "
+    echo ""
+    exit
+fi
+
+QUEUE=$1
+CORES=$2
+MEM=$3
+IN=$4
+
+# get the filename without the extension
+JOB=${IN%.*}
+
+SUBMIT=qsub.tmp
+PWD=`pwd`
+#cd 
+cat > $SUBMIT <<!EOF
+#!/bin/bash
+#SBATCH --job-name=$JOB
+#SBATCH -e `pwd`/$JOB-%j.err
+#SBATCH -o `pwd`/$JOB-%j.err
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=$CORES
+#SBATCH --mem=$MEM"gb"
+#SBATCH -t 167:00:00
+#SBATCH -p $QUEUE
+
+# set environment variables for calculation
+export CPU=$CORES
+export MEM=$MEM
+export AMSHOME=/home/sauer/source/ams2020.101
+export AMSBIN=\$AMSHOME/bin
+export AMSRESOURCES=\$AMSHOME/atomicdata
+export SCMLICENSE=/home/sauer/source/ADF/license.txt
+
+# prepare directory for output files
+mkdir $JOB
+cp general_input.txt $JOB
+cp run_ams.tmp $JOB
+#cp run_dalton.tmp $JOB
+#cp run_gaussian.tmp $JOB
+#cp run_cfour.tmp $JOB
+cp *.py $JOB
+#find . -name '*.py' -exec cp {} $JOB \;
+find . -name '*.run' -exec cp {} $JOB \;
+find . -name '*.txt' -exec cp {} $JOB \;
+find . -name '*.mol' -exec cp {} $JOB \;
+#find . -name '*.gjf' -exec cp {} $JOB \;
+
+cd $JOB
+# set scratch dir
+SCRATCH=/scratch/\$SLURM_JOB_ID
+#export SCRATCH
+# make scratch dir
+mkdir -p \$SCRATCH || exit $?
+
+:
+#cp ~/data/input.tmp \$SCRATCH
+
+
+#python ams_input.py
+/opt/anaconda3.7/bin/python ams_input.py
+
+# remove scratch dir
+rm -rf \$SCRATCH || exit $?
+
+echo ========= Job finished ===================
+!EOF
+
+sbatch $SUBMIT
+#rm -f $SUBMIT
+
+

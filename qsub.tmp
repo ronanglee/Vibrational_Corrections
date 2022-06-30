@@ -1,0 +1,50 @@
+#!/bin/bash
+#SBATCH --job-name=hf_test
+#SBATCH -e /home/ronanglee/projectStephanVibraCorrections/ronan/hf_test-%j.err
+#SBATCH -o /home/ronanglee/projectStephanVibraCorrections/ronan/hf_test-%j.err
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=4"gb"
+#SBATCH -t 167:00:00
+#SBATCH -p coms
+
+# set environment variables for calculation
+export CPU=4
+export MEM=4
+export AMSHOME=/home/sauer/source/ams2020.101
+export AMSBIN=$AMSHOME/bin
+export AMSRESOURCES=$AMSHOME/atomicdata
+export SCMLICENSE=/home/sauer/source/ADF/license.txt
+
+# prepare directory for output files
+mkdir hf_test
+cp general_input.txt hf_test
+cp run_ams.tmp hf_test
+#cp run_dalton.tmp hf_test
+#cp run_gaussian.tmp hf_test
+#cp run_cfour.tmp hf_test
+cp *.py hf_test
+#find . -name '*.py' -exec cp {} hf_test \;
+find . -name '*.run' -exec cp {} hf_test \;
+find . -name '*.mol' -exec cp {} hf_test \;
+#find . -name '*.gjf' -exec cp {} hf_test \;
+
+cd hf_test
+# set scratch dir
+SCRATCH=/scratch/$SLURM_JOB_ID
+#export SCRATCH
+# make scratch dir
+mkdir -p $SCRATCH || exit 0
+
+:
+#cp ~/data/input.tmp $SCRATCH
+
+
+#python ams_input.py
+/opt/anaconda3.7/bin/python ams_input.py
+
+# remove scratch dir
+rm -rf $SCRATCH || exit 0
+
+echo ========= Job finished ===================

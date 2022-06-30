@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Create scratch folder
+HERE=`pwd`
+
+export AMSHOME=/home/sauer/source/ams2020.101
+export AMSBIN=$AMSHOME/bin
+export AMSRESOURCES=$AMSHOME/atomicdata
+export SCMLICENSE=/home/sauer/source/ADF/license.txt
+
+# Create scratch folder and change to it
+SCRATCH=/scratch/$SLURM_JOB_ID
+export SCM_SCRDIR=$SCRATCH/dummyCOM
+mkdir -p $SCM_SCRDIR
+cd $SCM_SCRDIR
+
+source $HERE/dummyCOM.run > $HERE/dummyCOM.out
+
+# Remove scratch folder
+cd ..
+rm -rf $SCM_SCRDIR
+

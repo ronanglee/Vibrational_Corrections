@@ -1,0 +1,19 @@
+Task GeometryOptimization
+
+GeometryOptimization
+   Convergence step=1.0e-10
+end
+
+Properties
+   Hessian True
+End
+
+Engine ADF
+    basis
+        Type DZP
+        core none
+        CreateOutput Yes
+    End
+EndEngine
+
+eor

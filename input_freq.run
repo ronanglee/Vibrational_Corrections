@@ -1,0 +1,15 @@
+
+Task SinglePoint
+
+Properties
+   NormalModes True
+End
+
+Engine ADF
+  title 
+  Basis 
+    type DZP 
+    core none
+  End
+EndEngine
+eor

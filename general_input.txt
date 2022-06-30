@@ -1,0 +1,46 @@
+# General input
+Input File name: hf_test.mol
+Charge: 0
+Multiplicity: 1
+Software: ams
+Number of atoms: 2
+Linear molecule (Y/N): y
+Molecular property (NMR, J_FC, J_SD, J_SO): NMR
+Temperature (K): 4.2
+Optimize geometry (Y/N): y
+Differentiation method (linear/polynomial): polynomial
+Polynomial fit order: 3
+Run new calculations? (Y/N): y
+Number of points (3/5): 5
+Anharmonic (Y/N): n
+Anharmonic Q (Y/N): n
+
+# Gaussian input
+h: 1
+Functional property: RHF
+Functional freq/opt: RHF
+Basis set property: STO-3G
+Basis set freq/opt: STO-3G
+Derivative mode (freq/fc): freq
+
+# CFOUR input
+method_geo: SCF
+basis_geo: dzp
+method_prop: SCF
+basis_prop: dzp
+stepsize: 0.05
+stepnumber: 1
+
+# Dalton input
+Text in line 3: Calculation of shielding constants
+Text in line 4: with STO-3G basis set
+Atomtypes: 2
+Generators: 0
+File name - calculation options 1: opt.dal
+File name - calculation options 2: freq.dal
+File name - calculation options 3: shield.dal
+
+# AMS input
+User added Optimization info: input_opt.run
+User added Frequency calculation info: input_freq.run
+User added NMR properties info: input_nmr.run
