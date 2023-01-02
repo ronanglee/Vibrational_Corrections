@@ -1,1 +1,1 @@
-This submodule is part of the Vibrational Corrections program initally concinved as part of S.P.A Sauer Master project/ project outside of course scope programs within the University of Copenhagen, Denmark.
+This submodule is part of the Vibrational Corrections program part of Stephan P.A Sauer outside of course scope program within the University of Copenhagen, Denmark.
